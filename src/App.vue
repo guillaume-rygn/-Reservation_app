@@ -8,8 +8,6 @@ import { RouterLink, RouterView } from 'vue-router'
     <h1>Réserver une salle</h1>
   </header>
 
-  
-
   <RouterView />
 </template>
 
@@ -37,4 +35,5 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
+
 </style>

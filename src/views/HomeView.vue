@@ -3,11 +3,20 @@
   import 'vue-datepicker-next/index.css';
   import moment from 'moment'
   import axios from "axios";
+  import Pickroom from '../components/Pickroom.vue';
+  import Inputname from '../components/Inputname.vue'; 
+  import Myreservation from '../components/Myreservation.vue';
 
   export default {
-    components: { DatePicker },
+    components: { 
+      DatePicker,
+      Pickroom,
+      Inputname,
+      Myreservation
+    },
     data() {
       return {
+        error:null,
         date: [null,null],
         name: null,
         rooms:[],
@@ -15,14 +24,14 @@
         reservations:[],
         seletedroom: null,
         myreservation: localStorage.getItem('myreservation')?localStorage.getItem('myreservation').split(",") : null,
-      };
+      }
     },
     mounted() {
       axios.get("http://localhost:3000/api/v1/reservations")
-      .then(response => {
-        this.reservations = response.data
-        console.log(response.data)
-      });
+        .then(response => {
+          this.reservations = response.data
+          console.log(response.data)
+        });
       axios.get("http://localhost:3000/api/v1/rooms")
         .then(response => {
           this.rooms = response.data.rooms
@@ -31,8 +40,9 @@
     methods:{
       getData()
       {
+        this.error=null,
         this.name = null;
-        this.seletedroom = null;
+        this.selectedroom = null;
         this.meetingfree = [];
         axios.get("http://localhost:3000/api/v1/rooms")
         .then(response => {
@@ -77,21 +87,20 @@
       },
 
       reservation(){
-        console.log(this.seletedroom + "," + this.name + "," + this.date[0] + "," + this.date[1])
+
 
         const reservation = {
           name:this.name,
           start_date: this.date[0],
           end_date: this.date[1],
-          room: this.seletedroom
+          room: this.selectedroom
         }
 
-        console.log(reservation)
+        if(this.selectedroom && this.name && this.date[0] && this.date[1]){
 
-        axios.post(`http://localhost:3000/api/v1/reservations/${this.seletedroom}`, reservation)
+        
+        axios.post(`http://localhost:3000/api/v1/reservations/${this.selectedroom}`, reservation)
           .then(response => {
-            console.log(response)
-            console.log(response.data)
             if(localStorage.getItem("myreservation")){
               localStorage.setItem('myreservation', [localStorage.getItem('myreservation'),response.data._id])
             } else {
@@ -106,17 +115,24 @@
           })
           .then(() => {
             this.name = null;
-            this.seletedroom = null;
+            this.selectedroom = null;
             this.meetingfree = [];
             this.date = [null,null];
           });
-        
+        } else {
+          this.error = "Merci de saisir tous les champs"
+        }
       
       },
       deletereservation(id){
         axios.delete(`http://localhost:3000/api/v1/reservations/${id}`)
           .then(response => {
             const mynewreservation = localStorage.getItem('myreservation').split(",").filter(element => element !== id)
+
+            this.name = null;
+            this.selectedroom = null;
+            this.meetingfree = [];
+            this.date = [null,null];
 
             if(mynewreservation.length == 0){
               localStorage.removeItem('myreservation');
@@ -128,13 +144,13 @@
             }
           });
       },
-/*-----------------------------------------------*/
-  beforeDestroy () {
-    localStorage.removeItem('myreservation');
-  },
-
-/*-----------------------------------------------*/
-
+      updateroomchoice(id){
+        this.selectedroom = id
+      },
+      updatename(nameinput){
+        this.error=null
+        this.name = nameinput
+      }
     }
   };
 </script> 
@@ -142,93 +158,28 @@
 
 <template>
   <main>
-  <div class="pickdate">
-     <h2>Choississez votre horaire :</h2>
-    <div>
-      <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate"></date-picker>
+    <div class="pickdate">
+      <h2>Choississez votre horaire :</h2>
+      <div>
+        <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate"></date-picker>
+      </div>
     </div>
-  </div>
 
-  <div v-if="date[0] !== null" class="roomsection">
-      <label v-for="room in meetingfree" :key="room.id" class="roomchoiceparent">
-          <input 
-            name="meetingfree"
-            type="radio" 
-            :value="room._id" 
-            v-model="seletedroom"
-            :id="room._id" 
-          />
-          <div class="roomchoice">
-            <p>{{room.name}}</p>
-            <p><i class="fa-solid fa-user"></i>{{room.capacity}}</p>
-          </div>
-          <br/>
-      </label>
-  </div>
+    <Pickroom :room="meetingfree" v-if="date[0] !== null" v-on:roomChoice="updateroomchoice($event)"/>
 
-  <input
-    type="text"
-    placeholder="votre nom"
-    v-model="name"
-    v-if="seletedroom !== null && date !== null"
-  />
+    <Inputname v-on:nameChoice="updatename($event)" v-if="date[0] !== null"/>
 
-  <button v-on:click="reservation()" v-if="name !== null && date !== null">Reserver la salle</button>
+    <button v-on:click="reservation()" v-if="name !== null && date !== null">Reserver la salle</button>
 
-  <h2>Mes reservations</h2>
-  
-  <div v-for="reservation in myreservation" :key="reservation.id">
-    <p>{{reservation}}</p>
-    <button v-on:click="deletereservation(reservation)">delete reservation</button>
+    <p>{{error}}</p>
 
-  </div>
-  <button v-on:click="beforeDestroy()">click</button>
-  <div>
+    <Myreservation :myreservation="myreservation" v-on:deleteRoom="deletereservation($event)"/>
 
-  </div>
 
-</main>
+  </main>
 </template>
 
 <style>
-
-  .roomchoice{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 20px;
-  }
-
-  .roomsection{
-    margin: 15px;
-    border: 1px solid rgb(211, 211, 211);
-    padding: 15px 100px;
-    border-radius: 25px;
-    text-align: center;
-    -webkit-box-shadow: 0px 0px 15px -15px #000000; 
-    box-shadow: 0px 0px 15px -15px #000000;
-  }
-
-  .roomchoice p{
-    margin: 15px 10px;
-  }
-
-  .roomchoiceparent{
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid black;
-  }
-
-  .roomchoiceparent:hover{
-    background-color: aliceblue;
-  }
-
-
-  .roomchoiceparent input{
-    margin-right: 20px;
-  }
-
   main{
     display: flex;
     flex-direction: column;
