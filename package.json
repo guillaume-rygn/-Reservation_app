@@ -1,0 +1,21 @@
+{
+  "name": "reservation_adlin",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "moment": "^2.29.4",
+    "vue": "^3.2.38",
+    "vue-datepicker-next": "^1.0.2",
+    "vue-router": "^4.1.5",
+    "vue2-datepicker": "^3.11.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.3",
+    "vite": "^3.0.9"
+  }
+}
