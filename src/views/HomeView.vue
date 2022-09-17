@@ -196,10 +196,10 @@
 
   .pickdate{
     width: 80%;
-    margin: 15px;
+    margin-top: 15px;
     border: 1px solid rgb(211, 211, 211);
     padding: 15px 100px;
-    border-radius: 25px;
+    border-radius: 10px;
     text-align: center;
     -webkit-box-shadow: 0px 0px 15px -15px #000000; 
     box-shadow: 0px 0px 15px -15px #000000;

@@ -1,62 +1,86 @@
 <template>
 
-<div class="tableroom">     
-    <table>
-      <tbody>
-        <tr>
-          <td></td>
-          <td>Nom</td>
-          <td v-on:click="sortCapacity()">
-            <p class="equipmentfilter">
-              <span>Capacité</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-              </svg>
-            </p>
-          </td>
-          <td v-on:click="sortTV()">
-            <p class="equipmentfilter">
-              <span>TV</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-              </svg>
-            </p>
-          </td>
-          <td v-on:click="sortRetroProjecteur()">
-            <p class="equipmentfilter"><span>Retro Projecteur</span><svg xmlns="http://www.w3.org/2000/svg" width="20%" height="20%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-            </svg></p>
-          </td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <table>
-      <tbody>
-          <tr v-for="room in room" :key="room.id" class="choicerow">
-            <label>
-            <td><input 
-              name="meetingfree"
-              type="radio" 
-              :value="room._id" 
-              v-model="selectedRoom"
-              v-on:change="update()"
-              :id="room._id" 
-            /></td>
-          
-            <td>{{room.name}}</td>
-            <td><i class="fa-solid fa-user"></i>{{room.capacity}}</td>
-            <td v-if="room.equipements.length > 0 && room.equipements.some(element => element.name === 'TV')"><i class="fa-solid fa-circle-check"></i></td>
-            <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
-            <td v-if="room.equipements.length > 0 && room.equipements.some(element => element.name === 'Retro Projecteur')"><i class="fa-solid fa-circle-check"></i></td>
-            <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
+<div class="tableroom">  
+    <div class="resumechoice">
+      <table v-if="selectedRoom !== null">
+        <tbody>
+          <tr>
             <td></td>
-          </label>
+            <td>{{selectedRoom.name}}</td>
+            <td><i class="fa-solid fa-user"></i> {{selectedRoom.capacity}}</td>
+            <td v-if="selectedRoom.equipements.length > 0 && selectedRoom.equipements.some(element => element.name === 'TV')"><span class="material-symbols-outlined">live_tv</span></td>
+            <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
+            <td v-if="selectedRoom.equipements.length > 0 && selectedRoom.equipements.some(element => element.name === 'Retro Projecteur')"><span class="material-symbols-outlined">videocam</span></td>
+            <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
           </tr>
-       
-      </tbody>
+        </tbody>
+      </table>     
+      <p v-else>Aucune salle de sélectionnée</p> 
+      <span class="material-symbols-outlined close expand" v-on:click="removeselectedroom()" v-if="this.selectedRoom !== null">close</span>   
+      <p v-if="this.toggle" class="expand" v-on:click="changeToogle()"><span class="material-symbols-outlined display">expand_more</span></p>
+      <p v-else class="expand" v-on:click="changeToogle()"><span class="material-symbols-outlined display">expand_less</span></p>
+    </div>
+    
+    <div v-if="this.toggle">
+      <table class="headertable">
+        <tbody>
+          <tr>
+            <td></td>
+            <td>Nom</td>
+            <td v-on:click="sortCapacity()">
+              <p class="equipmentfilter">
+                <span>Capacité</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                </svg>
+              </p>
+            </td>
+            <td v-on:click="sortTV()">
+              <p class="equipmentfilter">
+                <span>TV</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+                </svg>
+              </p>
+            </td>
+            <td v-on:click="sortRetroProjecteur()">
+              <p class="equipmentfilter"><span>Retro Projecteur</span><svg xmlns="http://www.w3.org/2000/svg" width="20%" height="20%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
+              </svg></p>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <table v-if="room.length > 0">
+        <tbody>
+            <tr v-for="room in room" :key="room.id" class="choicerow">
+              <label>
+              <td><input 
+                name="meetingfree"
+                type="radio" 
+                ref="meetingfree"
+                :value="room" 
+                v-model="selectedRoom"
+                v-on:change="update()"
+                :id="room._id" 
+              /></td>
+            
+              <td>{{room.name}}</td>
+              <td><i class="fa-solid fa-user"></i> {{room.capacity}}</td>
+              <td v-if="room.equipements.length > 0 && room.equipements.some(element => element.name === 'TV')"><i class="fa-solid fa-circle-check"></i></td>
+              <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
+              <td v-if="room.equipements.length > 0 && room.equipements.some(element => element.name === 'Retro Projecteur')"><i class="fa-solid fa-circle-check"></i></td>
+              <td v-else><i class="fa-sharp fa-solid fa-circle-xmark"></i></td>
+              <td></td>
+            </label>
+            </tr>
+        
+        </tbody>
 
-    </table>
+      </table>
+      <p v-else>Aucune salle n'est disponible à cet horaire</p>
+    </div>
   </div>
 </template>
 
@@ -65,11 +89,16 @@
     name:'Pickroom',
     data() {
       return {
+        toggle: true,
         filterCapacity:false,
         filterVideoprojecteur: false,
         filterTV: false
       }
     },
+    mounted(){
+      this.changeToogle()
+      this.$refs
+    },  
     props:{
       room: {
         type: Array
@@ -85,14 +114,23 @@
       };
     },
     methods:{
+      removeselectedroom(){
+        this.uncheck();
+        this.selectedRoom = null;
+      },  
+      changeToogle(){
+        this.toggle = !this.toggle
+        this.$forceUpdate();
+      },
       update(){
         if(this.filterRoomArray.length > 0){
-          this.$emit('roomChoice', {selectedRoom: this.selectedRoom, filter: this.filterRoomArray})
+          this.$emit('roomChoice', {selectedRoom: this.selectedRoom?this.selectedRoom._id : null, filter: this.filterRoomArray})
         } else {
-          this.$emit('roomChoice', {selectedRoom: this.selectedRoom, filter: this.meetingroom})
+          this.$emit('roomChoice', {selectedRoom: this.selectedRoom?this.selectedRoom._id : null, filter: this.meetingroom})
         }
       },
       sortCapacity(){
+        this.uncheck();
         this.filterCapacity = !this.filterCapacity
         let arraySort;
         if(this.filterRoomArray.length == 0){
@@ -105,15 +143,48 @@
         } else {
           this.arraySort.sort((a,b) => (b.capacity > a.capacity ? 1 : ((a.capacity > b.capacity) ? -1 : 0)))
         } 
+
+        this.$forceUpdate();
+        this.checked();
+
+      },
+      uncheck(){
+          for (let i = 0; i < this.$refs.meetingfree.length; i++) {
+            this.$refs.meetingfree[i].checked = false
+            }
+      },
+      checked(){
+        this.$nextTick(() => {
+          console.log(this.$refs.meetingfree)
+          let a = 0
+          if(this.selectedRoom !== null){
+            for (let i = 0; i < this.$refs.meetingfree.length; i++) {
+              if (this.$refs.meetingfree[i].id == this.selectedRoom._id) {
+                this.$refs.meetingfree[i].checked = true;
+                a = 1
+              } else {
+                this.$refs.meetingfree[i].checked = false
+              }
+            }
+            if(a == 0){
+              this.selectedRoom = null
+            }
+          }
+        });
       },
       sortTV(){
+        this.uncheck();
         this.filterTV = !this.filterTV
-        this.sort()
+        this.sort();
+        this.$forceUpdate();
+        this.checked();
       },
       sortRetroProjecteur(){
+        this.uncheck();
         this.filterVideoprojecteur = !this.filterVideoprojecteur
-        console.log(this.filterVideoprojecteur)
         this.sort()
+        this.$forceUpdate();
+        this.checked();
       },
       sort(){
         this.filterRoomArray = [];
@@ -123,7 +194,6 @@
             if(room.equipements.length > 0){
               if(room.equipements.some(equipment => equipment.name == "TV" && room.equipements.some(equipment => equipment.name == "Retro Projecteur"))){
                   this.filterRoomArray.push(room)
-                  console.log(this.filterRoomArray)
               }
             }
           })
@@ -133,7 +203,6 @@
             if(room.equipements.length > 0){
               if(room.equipements.some(equipment => equipment.name == "TV")){
                   this.filterRoomArray.push(room)
-                  console.log(this.filterRoomArray)
               }
             }
           })
@@ -143,23 +212,55 @@
             if(room.equipements.length > 0){
               if(room.equipements.some(equipment => equipment.name == "Retro Projecteur")){
                   this.filterRoomArray.push(room)
-                  console.log(this.filterRoomArray)
               }
             }
           })
           this.update();
         } else {
           this.filterRoomArray = this.meetingroom
-          console.log(this.filterRoomArray)
           this.update();
         }
       }
     }
-  
   }
 </script>
 
 <style>
+.display{
+  color:blue
+}
+
+.close {
+  color:red
+}
+
+.tableroom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 15px;
+  border: 1px solid rgb(211, 211, 211);
+  padding: 15px 100px;
+  border-radius: 10px;
+  text-align: center;
+  -webkit-box-shadow: 0px 0px 15px -15px #000000; 
+  box-shadow: 0px 0px 15px -15px #000000;
+  transition: all 2s ease;
+}
+
+.expand{
+  cursor: pointer;
+}
+
+.resumechoice{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  position: relative;
+}
 
 .equipmentfilter{
   gap: 5px;
@@ -200,26 +301,9 @@
   color: white;
 }
 
-
-
-.tableroom{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 80%;
-  margin: 15px;
-  border: 1px solid rgb(211, 211, 211);
-  padding: 15px 100px;
-  border-radius: 25px;
-  text-align: center;
-  -webkit-box-shadow: 0px 0px 15px -15px #000000; 
-  box-shadow: 0px 0px 15px -15px #000000;
-}
-
-table:first-child{
+.headertable{
   border-bottom: 1px solid black;
-  margin-bottom: 7px;
+  margin: 15px 0 7px 0;
 }
 
 table{
