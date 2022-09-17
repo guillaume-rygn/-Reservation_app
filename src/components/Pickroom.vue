@@ -273,7 +273,6 @@
   text-align: center;
   -webkit-box-shadow: 0px 0px 15px -15px #000000; 
   box-shadow: 0px 0px 15px -15px #000000;
-  transition: all 2s ease;
 }
 
 .expand{
