@@ -6,13 +6,15 @@
   import Pickroom from '../components/Pickroom.vue';
   import Inputname from '../components/Inputname.vue'; 
   import Myreservation from '../components/Myreservation.vue';
+  import Checkmark from '../components/Checkmark.vue';
 
   export default {
     components: { 
       DatePicker,
       Pickroom,
       Inputname,
-      Myreservation
+      Myreservation,
+      Checkmark
     },
     data() {
       return {
@@ -162,7 +164,10 @@
 <template>
   <main>
     <div class="pickdate">
-        <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate" placeholder="Choississez votre horaire"></date-picker>
+        <div class="relative">
+          <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate" placeholder="Choississez votre horaire"></date-picker>        <Checkmark class="checkmarkdate" v-if="date[0]"/>
+        </div>
+        
     </div>
 
     <Pickroom :room="filterResult" :meetingroom="meetingfree" v-if="date[0] !== null" v-on:roomChoice="updateroomchoice($event)"/>
@@ -191,7 +196,13 @@
     left: 50%;
     transform: translate(-50%);
     min-width: 250px;
-    width: 100%;
+    width: 100%;    
+  }
+
+  @media screen and (max-width: 540px) {
+    .pickdate{
+      width: 100% !important;
+    }
   }
 
   .pickdate{
@@ -203,6 +214,34 @@
     text-align: center;
     -webkit-box-shadow: 0px 0px 15px -15px #000000; 
     box-shadow: 0px 0px 15px -15px #000000;
+  }
+
+  .relative{
+    display: inline-block;
+    width: 100%;
+    position: relative;
+  }
+
+  .checkmarkdate{
+    position : absolute;
+    left: -40px;
+    top: 6px;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .checkmarkdate{
+      position : absolute;
+      left: -50px;
+      top: 6px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .checkmarkdate{
+      position : absolute;
+      left: -80px;
+      top: 6px;
+    }
   }
 </style>
 

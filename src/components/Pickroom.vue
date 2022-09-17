@@ -2,6 +2,7 @@
 
 <div class="tableroom">  
     <div class="resumechoice">
+      <Checkmark class="checkmark" v-if="selectedRoom"/>
       <table v-if="selectedRoom !== null">
         <tbody>
           <tr>
@@ -87,8 +88,13 @@
 </template>
 
 <script>
+  import Checkmark from './Checkmark.vue';
+
   export default{
     name:'Pickroom',
+    components: { 
+      Checkmark
+    },
     data() {
       return {
         toggle: true,
@@ -118,6 +124,7 @@
     methods:{
       removeselectedroom(){
         this.uncheck();
+        this.toggle = true;
         this.selectedRoom = null;
       },  
       changeToogle(){
@@ -125,6 +132,7 @@
         this.$forceUpdate();
       },
       update(){
+        this.changeToogle()
         if(this.filterRoomArray.length > 0){
           this.$emit('roomChoice', {selectedRoom: this.selectedRoom?this.selectedRoom._id : null, filter: this.filterRoomArray})
         } else {
@@ -199,7 +207,6 @@
               }
             }
           })
-          this.update();
         } else if(this.filterTV){
           this.meetingroom.map(room => {
             if(room.equipements.length > 0){
@@ -208,7 +215,6 @@
               }
             }
           })
-          this.update();
         } else if(this.filterVideoprojecteur){
           this.meetingroom.map(room => {
             if(room.equipements.length > 0){
@@ -217,10 +223,8 @@
               }
             }
           })
-          this.update();
         } else {
           this.filterRoomArray = this.meetingroom
-          this.update();
         }
       }
     }
@@ -234,6 +238,26 @@
 
 .close {
   color:red
+}
+
+.checkmark{
+  position: absolute;
+  left: -5px;
+  top: 15px;
+}
+
+@media screen and (max-width: 800px) {
+    .checkmark{
+      position : absolute;
+      left: -15px;
+      top: 15px;
+    }
+  }
+
+@media screen and (max-width: 540px) {
+  .tableroom{
+  width: 100% !important;
+}
 }
 
 .tableroom{
