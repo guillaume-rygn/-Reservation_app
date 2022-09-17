@@ -10,6 +10,7 @@
   import Button from '../components/Button.vue';
   import '../assets/datepicker.scss'
 
+
   export default {
     components: { 
       DatePicker,
@@ -131,7 +132,7 @@
       },
       deletereservation(id){
         axios.delete(`http://localhost:3000/api/v1/reservations/${id}`)
-          .then(response => {
+          .then(() => {
             const mynewreservation = localStorage.getItem('myreservation').split(",").filter(element => element !== id)
 
             this.name = null;
@@ -145,8 +146,7 @@
               this.myreservation = null
             } else {
               localStorage.setItem('myreservation', mynewreservation)
-              this.myreservation = [...this.myreservation, response.data._id]
-              console.log(this.myreservation)
+              this.myreservation = mynewreservation
             }
           });
       },
