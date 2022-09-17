@@ -7,6 +7,8 @@
   import Inputname from '../components/Inputname.vue'; 
   import Myreservation from '../components/Myreservation.vue';
   import Checkmark from '../components/Checkmark.vue';
+  import Button from '../components/Button.vue';
+  import '../assets/datepicker.scss'
 
   export default {
     components: { 
@@ -14,7 +16,8 @@
       Pickroom,
       Inputname,
       Myreservation,
-      Checkmark
+      Checkmark,
+      Button
     },
     data() {
       return {
@@ -165,7 +168,7 @@
   <main>
     <div class="pickdate">
         <div class="relative">
-          <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate" placeholder="Choississez votre horaire"></date-picker>        <Checkmark class="checkmarkdate" v-if="date[0]"/>
+          <date-picker prefix-class="xmx" v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate" placeholder="Choississez votre horaire"></date-picker>        <Checkmark class="checkmarkdate" v-if="date[0]"/>
         </div>
         
     </div>
@@ -174,7 +177,8 @@
 
     <Inputname v-on:nameChoice="updatename($event)" v-if="selectedroom !== null && date[0] !== null"/>
 
-    <button v-on:click="reservation()" v-if="name !== null && date !== null">Reserver la salle</button>
+    <Button v-on:click="reservation()" v-if="name && date && selectedroom"></Button>
+    
 
     <p>{{error}}</p>
 
@@ -242,6 +246,10 @@
       left: -80px;
       top: 6px;
     }
+  }
+
+  .validation{
+    margin-top: 15px;
   }
 </style>
 

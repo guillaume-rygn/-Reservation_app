@@ -19,6 +19,7 @@
     methods:{
       deletechoice(reservation){
         console.log(reservation)
+        this.$forceUpdate();
         this.$emit('deleteRoom', reservation)
       }
     }

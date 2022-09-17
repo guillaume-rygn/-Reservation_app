@@ -5,9 +5,12 @@
       <input
         type="text"
         placeholder="votre nom"
+        ref="text"
         v-model="title"
         v-on:input="updateName()"
       />
+      <p class="material-symbols-outlined close expand inputnameclose" v-on:click="clearInput()" v-if="this.title !== null">close</p>   
+
     </div>
     
   </div>
@@ -29,6 +32,9 @@
     methods:{
       updateName(){
         this.$emit('nameChoice', this.title)
+      },
+      clearInput(){
+        this.title = null
       }
     }
   
@@ -57,9 +63,14 @@
     border-bottom: 1px solid rgb(199, 199, 199);
   }
 
+  .inputnameclose{
+    top: 5px;
+    font-size: 15px;
+  }
+
   .inputname input{
     border: none;
-    width: 100%;
+    width: 90%;
   }
 
   textarea:focus, input:focus{

@@ -105,7 +105,6 @@
     },
     mounted(){
       this.changeToogle()
-      this.$refs
     },  
     props:{
       room: {
@@ -156,7 +155,8 @@
 
         this.$forceUpdate();
         this.checked();
-
+        this.update();
+        this.toggle = true;
       },
       uncheck(){
           for (let i = 0; i < this.$refs.meetingfree.length; i++) {
@@ -165,7 +165,6 @@
       },
       checked(){
         this.$nextTick(() => {
-          console.log(this.$refs.meetingfree)
           let a = 0
           if(this.selectedRoom !== null){
             for (let i = 0; i < this.$refs.meetingfree.length; i++) {
@@ -188,6 +187,7 @@
         this.sort();
         this.$forceUpdate();
         this.checked();
+        this.toggle = true;
       },
       sortRetroProjecteur(){
         this.uncheck();
@@ -195,6 +195,7 @@
         this.sort()
         this.$forceUpdate();
         this.checked();
+        this.toggle = true;
       },
       sort(){
         this.filterRoomArray = [];
@@ -207,7 +208,10 @@
               }
             }
           })
+          this.update()
         } else if(this.filterTV){
+          console.log("la")
+          console.log(this.filterRoomArray)
           this.meetingroom.map(room => {
             if(room.equipements.length > 0){
               if(room.equipements.some(equipment => equipment.name == "TV")){
@@ -215,6 +219,7 @@
               }
             }
           })
+          this.update()
         } else if(this.filterVideoprojecteur){
           this.meetingroom.map(room => {
             if(room.equipements.length > 0){
@@ -223,8 +228,10 @@
               }
             }
           })
+          this.update()
         } else {
           this.filterRoomArray = this.meetingroom
+          this.update()
         }
       }
     }
@@ -233,11 +240,17 @@
 
 <style>
 .display{
-  color:blue
+  color:#00f165;
+  transition: all 0.2s ease;
+  transform: translateY(2px);
+}
+
+.display:hover{
+  transform: translateY(4px) rotate(180deg);
 }
 
 .close {
-  color:red
+  color:red;
 }
 
 .checkmark{
@@ -295,11 +308,11 @@
 }
 
 .colorselect{
-  color:blue;
+  color:#00f165;
 }
 
 .equipmentfilter:hover{
-  color: blue;
+  color: #00f165;
   cursor: pointer;
 }
 
@@ -315,14 +328,14 @@
 }
 
 .filter p:not(:first-child){
-  border: 1px solid blue;
-  color: blue;
+  border: 1px solid #00f165;
+  color: #00f165;
   border-radius: 20px;
   cursor: pointer;
 }
 
 .filter p:not(:first-child):hover{
-  background-color: blue;
+  background-color: #00f165;
   color: white;
 }
 
