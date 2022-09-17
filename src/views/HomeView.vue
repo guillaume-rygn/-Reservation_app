@@ -20,9 +20,10 @@
         date: [null,null],
         name: null,
         rooms:[],
+        filterResult: [],
         meetingfree: [],
         reservations:[],
-        seletedroom: null,
+        selectedroom: null,
         myreservation: localStorage.getItem('myreservation')?localStorage.getItem('myreservation').split(",") : null,
       }
     },
@@ -41,6 +42,7 @@
       getData()
       {
         this.error=null,
+        this.filterResult=[];
         this.name = null;
         this.selectedroom = null;
         this.meetingfree = [];
@@ -51,16 +53,13 @@
         .then(() => {
           this.rooms.map(element => {
             if(element.reservation.length === 0){
-              console.log("ici")
                 this.meetingfree = [...this.meetingfree, element]
+                this.filterResult = this.meetingfree
             } else {      
                 let a = 0;  
                 element.reservation.map(reservations => {     
                     axios.get(`http://localhost:3000/api/v1/reservations/${reservations}`)
                     .then(response => {
-                      console.log("début test")
-                      console.log(response)
-                      console.log(response.data)
                       const start_date = moment(this.date[0]).toJSON()
                       const end_date = moment(this.date[1]).toJSON()
 
@@ -75,6 +74,7 @@
                     .then(() => {
                       if(a == 0){
                         this.meetingfree = [...this.meetingfree, element]
+                        this.filterResult = this.meetingfree
                       }
                     })
                 })
@@ -132,6 +132,7 @@
             this.name = null;
             this.selectedroom = null;
             this.meetingfree = [];
+            this.filterResult =[];
             this.date = [null,null];
 
             if(mynewreservation.length == 0){
@@ -144,8 +145,10 @@
             }
           });
       },
-      updateroomchoice(id){
-        this.selectedroom = id
+      updateroomchoice(event){
+        console.log(event)
+        this.selectedroom = event.selectedRoom
+        this.filterResult = event.filter
       },
       updatename(nameinput){
         this.error=null
@@ -159,15 +162,12 @@
 <template>
   <main>
     <div class="pickdate">
-      <h2>Choississez votre horaire :</h2>
-      <div>
-        <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate"></date-picker>
-      </div>
+        <date-picker v-model:value="date" type="datetime" valueType="format" lang="fr" range v-on:change="getData()" class="inputdate" placeholder="Choississez votre horaire"></date-picker>
     </div>
 
-    <Pickroom :room="meetingfree" v-if="date[0] !== null" v-on:roomChoice="updateroomchoice($event)"/>
+    <Pickroom :room="filterResult" :meetingroom="meetingfree" v-if="date[0] !== null" v-on:roomChoice="updateroomchoice($event)"/>
 
-    <Inputname v-on:nameChoice="updatename($event)" v-if="date[0] !== null"/>
+    <Inputname v-on:nameChoice="updatename($event)" v-if="selectedroom !== null && date[0] !== null"/>
 
     <button v-on:click="reservation()" v-if="name !== null && date !== null">Reserver la salle</button>
 
@@ -190,7 +190,7 @@
   .inputdate{
     left: 50%;
     transform: translate(-50%);
-    min-width: 200px;
+    min-width: 250px;
     width: 100%;
   }
 

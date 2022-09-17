@@ -25,7 +25,7 @@ header {
   line-height: 1.5;
   border-radius: 25px;
   max-height: 100vh;
-  background-color: rgb(29, 255, 225);
+  background-color: aliceblue;
   padding: 20px;
 }
 
