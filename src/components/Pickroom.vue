@@ -30,21 +30,23 @@
             <td v-on:click="sortCapacity()">
               <p class="equipmentfilter">
                 <span>Capacité</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
                 </svg>
               </p>
             </td>
             <td v-on:click="sortTV()">
-              <p class="equipmentfilter">
+              <p class="equipmentfilter" :class="this.filterTV?'colorselect':''">
                 <span>TV</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="15%" height="15%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
                 </svg>
               </p>
             </td>
             <td v-on:click="sortRetroProjecteur()">
-              <p class="equipmentfilter"><span>Retro Projecteur</span><svg xmlns="http://www.w3.org/2000/svg" width="20%" height="20%" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <p class="equipmentfilter" :class="this.filterVideoprojecteur?'colorselect':''">
+                <span>Retro Projecteur</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22px" height="22px" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
               </svg></p>
             </td>
@@ -242,7 +244,7 @@
   width: 80%;
   margin: 15px;
   border: 1px solid rgb(211, 211, 211);
-  padding: 15px 100px;
+  padding: 15px 50px;
   border-radius: 10px;
   text-align: center;
   -webkit-box-shadow: 0px 0px 15px -15px #000000; 
@@ -307,8 +309,7 @@
 }
 
 table{
-  min-width: 250px;
-  width: 100%;
+  width: clamp(250px, 50vw, 350px);
   table-layout: auto;
 }
 
