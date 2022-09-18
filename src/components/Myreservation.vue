@@ -53,9 +53,9 @@ export default {
     let result = []
     for (let i = 0; i < this.myreservation.length; i++) {
         let objReservation = {}
-        objReservation.name = this.getName(this.myreservation[i], -1);
-        objReservation.startTime = this.getStartTime(this.myreservation[i], -1);
-        objReservation.endTime = this.getEndTime(this.myreservation[i], -1);
+        objReservation.name = this.getName(this.myreservation[i]);
+        objReservation.startTime = this.getStartTime(this.myreservation[i]);
+        objReservation.endTime = this.getEndTime(this.myreservation[i]);
         result.push(objReservation)
     }
     return result;
@@ -72,9 +72,9 @@ export default {
       let result = []
       for (let i = 0; i < this.myreservation.length; i++) {
           let objReservation = {}
-          objReservation.name = this.getName(this.myreservation[i], -1);
-          objReservation.startTime = this.getStartTime(this.myreservation[i], -1);
-          objReservation.endTime = this.getEndTime(this.myreservation[i], -1);
+          objReservation.name = this.getName(this.myreservation[i]);
+          objReservation.startTime = this.getStartTime(this.myreservation[i]);
+          objReservation.endTime = this.getEndTime(this.myreservation[i]);
           result.push(objReservation)
       }
       this.resultReservation = result
@@ -82,45 +82,37 @@ export default {
     deletechoice(reservation) {
       this.$emit("deleteRoom", reservation);
     },
-    getName(reservation, index) {
+    getName(reservation) {
       const value = this.rooms.filter((element) =>
         element.reservation.includes(reservation)
       );
-      return value[0].name
-     /* if (value[0]) {
-        this.nameRoom.push(value[0].name);
-        return this.nameRoom[index];
-      }*/
+      if(value.length > 0){
+        return value[0].name
+      }
+      return null
     },
-    getStartTime(reservation, index) {
+    getStartTime(reservation) {
       const value = this.reservations.filter(
         (element) => element._id == reservation
       );
-      return moment(value[0].start_date)
-          .locale("fr")
-          .format("dddd, Do MMMM YYYY, H:mm:ss");
-      
-      /*if (value[0]) {
-        this.startDate.push(value[0].start_date);
-        return moment(this.startDate[index])
+      if(value.length > 0){
+        return moment(value[0].start_date)
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
       }
-      this.$forceUpdate(reservation);*/
+      return null
+      
     },
-    getEndTime(reservation, index) {
+    getEndTime(reservation) {
       const value = this.reservations.filter(
         (element) => element._id == reservation
       );
-      /*if (value[0]) {
-        this.endDate.push(value[0].end_date);
-        return moment(this.endDate[index])
+      if(value.length > 0){
+        return moment(value[0].end_date)
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
-      }*/
-      return moment(value[0].end_date)
-          .locale("fr")
-          .format("dddd, Do MMMM YYYY, H:mm:ss");
+      }
+      return null
     }
   }
 };
