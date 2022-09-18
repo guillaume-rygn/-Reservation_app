@@ -99,10 +99,10 @@ export default {
                     ) {
                       return
                     } else if (
-                      moment(end_date).isBefore(
+                      moment(end_date).isAfter(
                         moment(response.data.end_date).toJSON()
                       ) &&
-                      moment(start_date).isAfter(
+                      moment(start_date).isBefore(
                         moment(response.data.start_date).toJSON()
                       )
                     ) {
