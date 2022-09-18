@@ -2,6 +2,7 @@
   <div class="reservationsection">
     <hr />
     <h2>Mes reservations</h2>
+    
 
     <div
       v-for="(reservation, index) in myreservation"
@@ -44,10 +45,10 @@ export default {
     };
   },
   mounted() {
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
+    axios.get("https://reservation-app-liard.vercel.app/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
     });
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
+    axios.get("https://reservation-app-liard.vercel.app/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
     });
   },
