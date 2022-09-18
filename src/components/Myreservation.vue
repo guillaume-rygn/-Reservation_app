@@ -44,10 +44,10 @@ export default {
     };
   },
   mounted() {
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/api/v1/reservations").then((response) => {
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
     });
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/api/v1/rooms").then((response) => {
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
     });
   },
