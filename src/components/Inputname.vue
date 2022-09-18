@@ -38,6 +38,7 @@ export default {
     },
     clearInput() {
       this.title = null;
+      this.updateName();
     },
   },
 };

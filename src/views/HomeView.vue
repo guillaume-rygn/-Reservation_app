@@ -123,6 +123,8 @@ export default {
         room: this.selectedroom,
       };
 
+      console.log(reservation)
+
       if (this.selectedroom && this.name && this.date[0] && this.date[1]) {
         axios
           .post(
@@ -130,6 +132,7 @@ export default {
             reservation
           )
           .then((response) => {
+            console.log("ok")
             if (localStorage.getItem("myreservation")) {
               localStorage.setItem("myreservation", [
                 localStorage.getItem("myreservation"),
