@@ -32,7 +32,7 @@ export default {
       selectedroom: null,
       myreservation: localStorage.getItem("myreservation")
         ? localStorage.getItem("myreservation").split(",")
-        : null,
+        : [],
     };
   },
   mounted() {
