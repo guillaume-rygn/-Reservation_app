@@ -71,7 +71,6 @@ export default {
               this.meetingfree = [...this.meetingfree, element];
               this.filterResult = this.meetingfree;
             } else {
-              let a = 0;
               element.reservation.map((reservations) => {
                 axios
                   .get(
@@ -89,7 +88,7 @@ export default {
                         moment(response.data.start_date).toJSON()
                       )
                     ) {
-                      a = 1;
+                      return
                     } else if (
                       moment(start_date).isBefore(
                         moment(response.data.end_date).toJSON()
@@ -98,7 +97,7 @@ export default {
                         moment(response.data.start_date).toJSON()
                       )
                     ) {
-                      a = 1;
+                      return
                     } else if (
                       moment(end_date).isBefore(
                         moment(response.data.end_date).toJSON()
@@ -107,15 +106,11 @@ export default {
                         moment(response.data.start_date).toJSON()
                       )
                     ) {
-                      a = 1;
+                      return
                     }
+                    this.meetingfree = [...this.meetingfree, element];
+                    this.filterResult = this.meetingfree;
                   })
-                  .then(() => {
-                    if (a == 0) {
-                      this.meetingfree = [...this.meetingfree, element];
-                      this.filterResult = this.meetingfree;
-                    }
-                  });
               });
             }
           });
