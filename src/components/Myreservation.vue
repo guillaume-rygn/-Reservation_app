@@ -45,6 +45,7 @@ export default {
     };
   },
   mounted() {
+    console.log("je suis dans le componenets reservation")
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
     });

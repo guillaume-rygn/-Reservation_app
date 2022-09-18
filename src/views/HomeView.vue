@@ -145,7 +145,7 @@ export default {
             } else {
               console.log("je suis la")
               localStorage.setItem("myreservation", response.data._id);
-              console.log(localStorage.getItem("myreservation"))
+              console.log(`voici le localStorage : ${localStorage.getItem("myreservation")}`)
             }
             console.log("a la variable maintenant")
             if (this.myreservation == null) {
