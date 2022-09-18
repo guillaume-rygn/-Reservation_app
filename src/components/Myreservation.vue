@@ -12,8 +12,8 @@
       <p>{{reservation}}</p>
       <p>{{index}}</p>
       <p>test</p>
-      <!--<p>{{ getName(reservation, index) }}</p>
-      <div>
+      <p>{{ getName(reservation, index) }}</p>
+      <!--<div>
         <p><span>début : </span>{{ getStartTime(reservation, index) }}</p>
         <p><span>fin : </span>{{ getEndTime(reservation, index) }}</p>
       </div>-->
@@ -47,10 +47,7 @@ export default {
       endDate: [],
     };
   },
-  mounted() {
-    console.log(`composant monté : ${this.myreservation}`)
-
-    console.log("je suis dans le componenets reservation")
+  beforeCreate() {
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
     });
@@ -58,20 +55,7 @@ export default {
       this.rooms = response.data.rooms;
     });
   },
-  computed(){
-    console.log(`composant réservation : ${this.myreservation}`)
-    console.log("ça change !")
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
-      this.reservations = response.data.reservations;
-    });
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
-      this.rooms = response.data.rooms;
-    });
-  },
-  methods: {
-    deletechoice(reservation) {
-      this.$emit("deleteRoom", reservation);
-    },
+  computed:{
     getName(reservation, index) {
       const value = this.rooms.filter((element) =>
         element.reservation.includes(reservation)
@@ -103,8 +87,13 @@ export default {
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
       }
-    },
+    }
   },
+  methods: {
+    deletechoice(reservation) {
+      this.$emit("deleteRoom", reservation);
+    }
+  }
 };
 </script>
 

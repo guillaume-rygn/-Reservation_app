@@ -38,7 +38,14 @@ export default {
   mounted() {
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data;
-      console.log(this.reservations)
+    });
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
+      this.rooms = response.data.rooms;
+    });
+  },
+  computed(){
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
+      this.reservations = response.data;
     });
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
@@ -47,8 +54,6 @@ export default {
   methods: {
     forceRerender() {
       this.componentKey += 1;
-      console.log(this.componentKey)
-      console.log("je suis dans cette fonction")
     },
     getData() {
       (this.error = null), (this.filterResult = []);
@@ -125,8 +130,6 @@ export default {
         room: this.selectedroom,
       };
 
-      console.log(reservation)
-
       if (this.selectedroom && this.name && this.date[0] && this.date[1]) {
         axios
           .post(
@@ -134,35 +137,24 @@ export default {
             reservation
           )
           .then((response) => {
-            console.log("ok")
             if (localStorage.getItem("myreservation")) {
-              console.log("je suis ici")
               localStorage.setItem("myreservation", [
                 localStorage.getItem("myreservation"),
                 response.data._id,
               ]);
-              console.log(localStorage.getItem("myreservation"))
             } else {
-              console.log("je suis la")
               localStorage.setItem("myreservation", response.data._id);
-              console.log(`voici le localStorage : ${localStorage.getItem("myreservation")}`)
             }
-            console.log("a la variable maintenant")
             if (this.myreservation == null) {
               this.myreservation = [response.data._id];
-              console.log(this.myreservation)
             } else {
               this.myreservation = [...this.myreservation, response.data._id];
-              console.log(this.myreservation)
             }
-            console.log("je suis quasi la")
-            console.log("dernière étape")
             this.forceRerender();
             this.name = null;
             this.selectedroom = null;
             this.meetingfree = [];
             this.date = [null, null];
-            console.log("c'est fini")
           })
       } else {
         this.error = "Merci de saisir tous les champs";
