@@ -140,7 +140,7 @@ export default {
             } else {
               localStorage.setItem("myreservation", response.data._id);
             }
-            if (this.myreservation == null) {
+            if (this.myreservation == []) {
               this.myreservation = [response.data._id];
             } else {
               this.myreservation = [...this.myreservation, response.data._id];
@@ -172,7 +172,7 @@ export default {
 
           if (mynewreservation.length == 0) {
             localStorage.removeItem("myreservation");
-            this.myreservation = null;
+            this.myreservation = [];
           } else {
             localStorage.setItem("myreservation", mynewreservation);
             this.myreservation = mynewreservation;
