@@ -1,17 +1,14 @@
 <template>
   <button class="reservation-btn">Réserver</button>
-
 </template>
 
 <script>
-  export default{
-    name:'Button',
-  }
- 
+export default {
+  name: "Button",
+};
 </script>
 
 <style>
-
 .reservation-btn {
   border: none;
   margin-top: 15px;
@@ -22,7 +19,7 @@
   font-weight: 800;
   border: none;
   z-index: 1;
-  cursor:pointer;
+  cursor: pointer;
 }
 .reservation-btn:after {
   position: absolute;
@@ -34,9 +31,8 @@
   z-index: -1;
   background-color: #029b1b;
   border-radius: 5px;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 .reservation-btn:hover {
@@ -49,5 +45,4 @@
 .reservation-btn:active {
   top: 2px;
 }
-
 </style>

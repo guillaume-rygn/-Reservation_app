@@ -1,10 +1,10 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
   <header>
-    <img alt="room isometric" class="room" src="@/assets/room.png"  />
+    <img alt="room isometric" class="room" src="@/assets/room.png" />
     <h1>Réserver une salle</h1>
   </header>
 
@@ -38,9 +38,8 @@ header {
 }
 
 @media screen and (max-width: 1023px) {
-  .room{
-  display: none;
+  .room {
+    display: none;
   }
 }
-
 </style>
