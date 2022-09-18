@@ -124,6 +124,10 @@ export default {
   flex-grow: 1;
 }
 
+.selectreservation p span{
+  color: #00c451;
+}
+
 .trash {
   color: rgb(255, 37, 37);
   cursor: pointer;
