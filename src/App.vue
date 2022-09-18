@@ -27,6 +27,7 @@ header {
   max-height: 100vh;
   background-color: aliceblue;
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .room {
@@ -34,6 +35,12 @@ header {
   width: 100%;
   display: block;
   margin: 0 auto 2rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .room{
+  display: none;
+  }
 }
 
 </style>

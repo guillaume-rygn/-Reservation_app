@@ -23,6 +23,7 @@
     data() {
       return {
         error:null,
+        componentKey:0,
         date: [null,null],
         name: null,
         rooms:[],
@@ -42,9 +43,14 @@
       axios.get("http://localhost:3000/api/v1/rooms")
         .then(response => {
           this.rooms = response.data.rooms
+          console.log(response.data)
+
         })
     },
     methods:{
+      forceRerender() {
+        this.componentKey += 1
+      },
       getData()
       {
         this.error=null,
@@ -120,6 +126,7 @@
             }
           })
           .then(() => {
+            this.forceRerender();
             this.name = null;
             this.selectedroom = null;
             this.meetingfree = [];
@@ -147,7 +154,9 @@
             } else {
               localStorage.setItem('myreservation', mynewreservation)
               this.myreservation = mynewreservation
+              console.log(this.myreservation)
             }
+            this.forceRerender();
           });
       },
       updateroomchoice(event){
@@ -182,7 +191,7 @@
 
     <p>{{error}}</p>
 
-    <Myreservation :myreservation="myreservation" v-on:deleteRoom="deletereservation($event)"/>
+    <Myreservation :myreservation="myreservation" v-on:deleteRoom="deletereservation($event)" :key="componentKey"/>
 
 
   </main>

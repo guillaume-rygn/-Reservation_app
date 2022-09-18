@@ -125,6 +125,7 @@
         this.uncheck();
         this.toggle = true;
         this.selectedRoom = null;
+        this.update();
       },  
       changeToogle(){
         this.toggle = !this.toggle
