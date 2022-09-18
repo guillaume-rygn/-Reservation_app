@@ -9,14 +9,11 @@
       :key="reservation.id"
       class="selectreservation"
     >
-      <p>{{reservation}}</p>
-      <p>{{index}}</p>
-      <p>{{myreservationComputed}}</p>
       <p>{{ getName(reservation, index) }}</p>
-      <!--<div>
+      <div>
         <p><span>début : </span>{{ getStartTime(reservation, index) }}</p>
         <p><span>fin : </span>{{ getEndTime(reservation, index) }}</p>
-      </div>-->
+      </div>
       <span
         v-on:click="deletechoice(reservation)"
         class="material-symbols-outlined trash"
