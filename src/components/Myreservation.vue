@@ -9,7 +9,10 @@
       :key="reservation.id"
       class="selectreservation"
     >
-      <p>{{ getName(reservation, index) }}</p>
+      <p>{{reservation}}</p>
+      <p>{{index}}</p>
+      <p>test</p>
+      <!--<p>{{ getName(reservation, index) }}</p>
       <div>
         <p><span>début : </span>{{ getStartTime(reservation, index) }}</p>
         <p><span>fin : </span>{{ getEndTime(reservation, index) }}</p>
@@ -18,7 +21,7 @@
         v-on:click="deletechoice(reservation)"
         class="material-symbols-outlined trash"
         >delete</span
-      >
+      >-->
     </div>
   </div>
 </template>
