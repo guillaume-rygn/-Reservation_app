@@ -11,9 +11,9 @@
     >
       <p>{{reservation}}</p>
       <p>{{index}}</p>
-      <p>test</p>
-      <p>{{ getName(reservation, index) }}</p>
-      <!--<div>
+      <p>{{myreservationComputed}}</p>
+      <!--<p>{{ getName(reservation, index) }}</p>
+      <div>
         <p><span>début : </span>{{ getStartTime(reservation, index) }}</p>
         <p><span>fin : </span>{{ getEndTime(reservation, index) }}</p>
       </div>-->
@@ -56,6 +56,14 @@ export default {
     });
   },
   computed:{
+    myreservationComputed(){
+      return this.myreservation
+    }
+  },
+  methods: {
+    deletechoice(reservation) {
+      this.$emit("deleteRoom", reservation);
+    },
     getName(reservation, index) {
       const value = this.rooms.filter((element) =>
         element.reservation.includes(reservation)
@@ -87,11 +95,6 @@ export default {
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
       }
-    }
-  },
-  methods: {
-    deletechoice(reservation) {
-      this.$emit("deleteRoom", reservation);
     }
   }
 };
