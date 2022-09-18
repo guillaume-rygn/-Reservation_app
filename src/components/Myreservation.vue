@@ -45,7 +45,19 @@ export default {
     };
   },
   mounted() {
+    console.log(`composant monté : ${this.myreservation}`)
+
     console.log("je suis dans le componenets reservation")
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
+      this.reservations = response.data.reservations;
+    });
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
+      this.rooms = response.data.rooms;
+    });
+  },
+  computed(){
+    console.log(`composant réservation : ${this.myreservation}`)
+    console.log("ça change !")
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
     });
