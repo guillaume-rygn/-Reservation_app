@@ -85,8 +85,8 @@ export default {
       this.$emit("deleteRoom", reservation);
     },
     getId(reservation){
-      const value = this.rooms.filter((element) =>
-        element.reservation.includes(reservation)
+      const value = this.reservations.filter(
+        (element) => element._id == reservation
       );
       if(value.length > 0){
         return value[0]._id

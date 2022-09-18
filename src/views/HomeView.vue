@@ -156,9 +156,11 @@ export default {
       }
     },
     deletereservation(id) {
+      console.log(id)
       axios
         .delete(`https://adlin-rest-api.herokuapp.com/api/v1/reservations/${id}`)
         .then(() => {
+          console.log("ici")
           const mynewreservation = localStorage
             .getItem("myreservation")
             .split(",")
