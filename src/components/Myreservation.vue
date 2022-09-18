@@ -15,7 +15,7 @@
         <p><span>fin : </span>{{ reservation.endTime }}</p>
       </div>
       <span
-        v-on:click="deletechoice(reservation)"
+        v-on:click="deletechoice(reservation.id)"
         class="material-symbols-outlined trash"
         >delete</span
       >
