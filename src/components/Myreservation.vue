@@ -60,7 +60,10 @@ export default {
       return this.myreservation
     }
   },
-  watch:{
+  methods: {
+    deletechoice(reservation) {
+      this.$emit("deleteRoom", reservation);
+    },
     getName(reservation, index) {
       const value = this.rooms.filter((element) =>
         element.reservation.includes(reservation)
@@ -92,11 +95,6 @@ export default {
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
       }
-    }
-  },
-  methods: {
-    deletechoice(reservation) {
-      this.$emit("deleteRoom", reservation);
     }
   }
 };
