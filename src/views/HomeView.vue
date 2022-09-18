@@ -134,26 +134,34 @@ export default {
           .then((response) => {
             console.log("ok")
             if (localStorage.getItem("myreservation")) {
+              console.log("je suis ici")
               localStorage.setItem("myreservation", [
                 localStorage.getItem("myreservation"),
                 response.data._id,
               ]);
+              console.log(localStorage.getItem("myreservation"))
             } else {
+              console.log("je suis la")
               localStorage.setItem("myreservation", response.data._id);
+              console.log(localStorage.getItem("myreservation"))
             }
-
+            console.log("a la variable maintenant")
             if (this.myreservation == null) {
               this.myreservation = [response.data._id];
+              console.log(this.myreservation)
             } else {
               this.myreservation = [...this.myreservation, response.data._id];
+              console.log(this.myreservation)
             }
           })
           .then(() => {
+            console.log("dernière étape")
             this.forceRerender();
             this.name = null;
             this.selectedroom = null;
             this.meetingfree = [];
             this.date = [null, null];
+            console.log("c'est fini")
           });
       } else {
         this.error = "Merci de saisir tous les champs";
