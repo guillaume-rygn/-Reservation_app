@@ -47,6 +47,8 @@ export default {
   methods: {
     forceRerender() {
       this.componentKey += 1;
+      console.log(this.componentKey)
+      console.log("je suis dans cette fonction")
     },
     getData() {
       (this.error = null), (this.filterResult = []);
