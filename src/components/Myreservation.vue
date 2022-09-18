@@ -53,6 +53,7 @@ export default {
     let result = []
     for (let i = 0; i < this.myreservation.length; i++) {
         let objReservation = {}
+        objReservation.id = this.getId(this.myreservation[i]);
         objReservation.name = this.getName(this.myreservation[i]);
         objReservation.startTime = this.getStartTime(this.myreservation[i]);
         objReservation.endTime = this.getEndTime(this.myreservation[i]);
@@ -72,6 +73,7 @@ export default {
       let result = []
       for (let i = 0; i < this.myreservation.length; i++) {
           let objReservation = {}
+          objReservation.id = this.getId(this.myreservation[i]);
           objReservation.name = this.getName(this.myreservation[i]);
           objReservation.startTime = this.getStartTime(this.myreservation[i]);
           objReservation.endTime = this.getEndTime(this.myreservation[i]);
@@ -81,6 +83,15 @@ export default {
     },
     deletechoice(reservation) {
       this.$emit("deleteRoom", reservation);
+    },
+    getId(reservation){
+      const value = this.rooms.filter((element) =>
+        element.reservation.includes(reservation)
+      );
+      if(value.length > 0){
+        return value[0]._id
+      }
+      return null
     },
     getName(reservation) {
       const value = this.rooms.filter((element) =>
