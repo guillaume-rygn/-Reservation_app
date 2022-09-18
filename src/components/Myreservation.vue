@@ -5,7 +5,7 @@
     
 
     <div
-      v-for="(reservation, index) in myreservation"
+      v-for="(reservation, index) in myreservationComputed"
       :key="reservation.id"
       class="selectreservation"
     >
