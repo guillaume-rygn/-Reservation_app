@@ -211,8 +211,6 @@
           })
           this.update()
         } else if(this.filterTV){
-          console.log("la")
-          console.log(this.filterRoomArray)
           this.meetingroom.map(room => {
             if(room.equipements.length > 0){
               if(room.equipements.some(equipment => equipment.name == "TV")){

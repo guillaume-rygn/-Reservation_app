@@ -38,11 +38,9 @@ export default {
   mounted() {
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data;
-      console.log(response.data);
     });
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
-      console.log(response.data);
     });
   },
   methods: {
@@ -113,9 +111,6 @@ export default {
               });
             }
           });
-          console.log("---------------------------");
-          this.meetingfree.map((element) => console.log(element.name));
-          console.log(this.meetingfree);
         });
     },
 
@@ -181,13 +176,11 @@ export default {
           } else {
             localStorage.setItem("myreservation", mynewreservation);
             this.myreservation = mynewreservation;
-            console.log(this.myreservation);
           }
           this.forceRerender();
         });
     },
     updateroomchoice(event) {
-      console.log(event);
       this.selectedroom = event.selectedRoom;
       this.filterResult = event.filter;
     },

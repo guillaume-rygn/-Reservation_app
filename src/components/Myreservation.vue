@@ -46,7 +46,6 @@ export default {
   mounted() {
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data.reservations;
-      console.log(this.reservations);
     });
     axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
