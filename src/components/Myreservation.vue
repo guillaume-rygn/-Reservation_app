@@ -5,14 +5,14 @@
     
 
     <div
-      v-for="(reservation, index) in myreservationComputed"
+      v-for="(reservation, index) in resultReservation"
       :key="reservation.id"
       class="selectreservation"
     >
-      <p>{{ getName(reservation, index) }}</p>
+      <p>{{reservation.name}}</p>
       <div>
-        <p><span>début : </span>{{ getStartTime(reservation, index) }}</p>
-        <p><span>fin : </span>{{ getEndTime(reservation, index) }}</p>
+        <p><span>début : </span>{{ reservation.startTime }}</p>
+        <p><span>fin : </span>{{ reservation.endTime }}</p>
       </div>
       <span
         v-on:click="deletechoice(reservation)"
@@ -42,22 +42,43 @@ export default {
       nameRoom: [],
       startDate: [],
       endDate: [],
+      resultReservation:[]
     };
   },
-  beforeCreate() {
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
-      this.reservations = response.data.reservations;
-    });
-    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
-      this.rooms = response.data.rooms;
-    });
+  created() {
+    this.initializePage();
   },
   computed:{
-    myreservationComputed(){
-      return this.myreservation
+    myreservationComputed() {
+    let result = []
+    for (let i = 0; i < this.myreservation.length; i++) {
+        let objReservation = {}
+        objReservation.name = this.getName(this.myreservation[i], -1);
+        objReservation.startTime = this.getStartTime(this.myreservation[i], -1);
+        objReservation.endTime = this.getEndTime(this.myreservation[i], -1);
+        result.push(objReservation)
+    }
+    return result;
     }
   },
   methods: {
+    async initializePage(){
+      await axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
+        this.reservations = response.data.reservations;
+      });
+      await axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
+        this.rooms = response.data.rooms;
+      });
+      let result = []
+      for (let i = 0; i < this.myreservation.length; i++) {
+          let objReservation = {}
+          objReservation.name = this.getName(this.myreservation[i], -1);
+          objReservation.startTime = this.getStartTime(this.myreservation[i], -1);
+          objReservation.endTime = this.getEndTime(this.myreservation[i], -1);
+          result.push(objReservation)
+      }
+      this.resultReservation = result
+    },
     deletechoice(reservation) {
       this.$emit("deleteRoom", reservation);
     },
@@ -65,33 +86,41 @@ export default {
       const value = this.rooms.filter((element) =>
         element.reservation.includes(reservation)
       );
-      if (value[0]) {
+      return value[0].name
+     /* if (value[0]) {
         this.nameRoom.push(value[0].name);
         return this.nameRoom[index];
-      }
+      }*/
     },
     getStartTime(reservation, index) {
       const value = this.reservations.filter(
         (element) => element._id == reservation
       );
-      if (value[0]) {
+      return moment(value[0].start_date)
+          .locale("fr")
+          .format("dddd, Do MMMM YYYY, H:mm:ss");
+      
+      /*if (value[0]) {
         this.startDate.push(value[0].start_date);
         return moment(this.startDate[index])
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
       }
-      this.$forceUpdate(reservation);
+      this.$forceUpdate(reservation);*/
     },
     getEndTime(reservation, index) {
       const value = this.reservations.filter(
         (element) => element._id == reservation
       );
-      if (value[0]) {
+      /*if (value[0]) {
         this.endDate.push(value[0].end_date);
         return moment(this.endDate[index])
           .locale("fr")
           .format("dddd, Do MMMM YYYY, H:mm:ss");
-      }
+      }*/
+      return moment(value[0].end_date)
+          .locale("fr")
+          .format("dddd, Do MMMM YYYY, H:mm:ss");
     }
   }
 };
