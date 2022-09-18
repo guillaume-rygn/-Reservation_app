@@ -36,11 +36,11 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://localhost:3000/api/v1/reservations").then((response) => {
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/reservations").then((response) => {
       this.reservations = response.data;
       console.log(response.data);
     });
-    axios.get("http://localhost:3000/api/v1/rooms").then((response) => {
+    axios.get("https://adlin-rest-api.herokuapp.com/api/v1/rooms").then((response) => {
       this.rooms = response.data.rooms;
       console.log(response.data);
     });
@@ -55,7 +55,7 @@ export default {
       this.selectedroom = null;
       this.meetingfree = [];
       axios
-        .get("http://localhost:3000/api/v1/rooms")
+        .get("https://adlin-rest-api.herokuapp.com/api/v1/rooms")
         .then((response) => {
           this.rooms = response.data.rooms;
         })
@@ -69,7 +69,7 @@ export default {
               element.reservation.map((reservations) => {
                 axios
                   .get(
-                    `http://localhost:3000/api/v1/reservations/${reservations}`
+                    `https://adlin-rest-api.herokuapp.com/api/v1/reservations/${reservations}`
                   )
                   .then((response) => {
                     const start_date = moment(this.date[0]).toJSON();
@@ -130,7 +130,7 @@ export default {
       if (this.selectedroom && this.name && this.date[0] && this.date[1]) {
         axios
           .post(
-            `http://localhost:3000/api/v1/reservations/${this.selectedroom}`,
+            `https://adlin-rest-api.herokuapp.com/api/v1/reservations/${this.selectedroom}`,
             reservation
           )
           .then((response) => {
@@ -162,7 +162,7 @@ export default {
     },
     deletereservation(id) {
       axios
-        .delete(`http://localhost:3000/api/v1/reservations/${id}`)
+        .delete(`https://adlin-rest-api.herokuapp.com/api/v1/reservations/${id}`)
         .then(() => {
           const mynewreservation = localStorage
             .getItem("myreservation")
