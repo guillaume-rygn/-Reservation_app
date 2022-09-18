@@ -13,7 +13,7 @@ Reservation Room App Adlin<br>
 
 ## Backend du projet 🗂️
 
-Le backend du projet se trouve ici 👉 [MongoDB](https://github.com/guillaume-rygn/-backend-REST-API-node.js-MongoDB)
+Le backend du projet se trouve ici 👉 [Backend Nodejs, Express, MongoDB](https://github.com/guillaume-rygn/-backend-REST-API-node.js-MongoDB)
 
 ## WEB version 🌐
 
