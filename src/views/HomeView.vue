@@ -153,10 +153,11 @@ export default {
               this.myreservation = [...this.myreservation, response.data._id];
               console.log(this.myreservation)
             }
+            console.log("je suis quasi la")
           })
           .then(() => {
             console.log("dernière étape")
-            this.forceRerender();
+            //this.forceRerender();
             this.name = null;
             this.selectedroom = null;
             this.meetingfree = [];
